@@ -1,0 +1,1 @@
+DELETE http://192.168.57.125:3001/api/people/ 1

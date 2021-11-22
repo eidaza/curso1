@@ -1,0 +1,7 @@
+POST http://192.168.57.125:3001/api/people/ 
+Content-Type: application/json
+
+{
+"name": "EDP", "number": "12345678" 
+}
+
