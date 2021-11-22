@@ -76,15 +76,16 @@ const addName = (event) => {
     if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one`)) {
       const phnBkCh = persons.find(n => n.name === newName)
       var id = phnBkCh.id
-      const changeNumb = persons.map(x =>(x.id !== id? x : nameObject))      
+            
       phoneService
       .update(id, nameObject)
-        .then(() => {
-        setPersons(changeNumb)        
+        .then((returnedPer) => {
+        setPersons(persons.map(x =>(x.id !== id? x : returnedPer)))        
       })
       .catch(error => {
-        SetTipCol (null)
-        setMessage(`Error update ${newName} from server`)
+        SetTipCol (null)      
+        setMessage(`Error update ${newName} from server. ${error.response.data.error}`)
+        console.log(error);        
         setTimeout(() => {
           setMessage(null)
         }, 5000)
@@ -107,7 +108,8 @@ const addName = (event) => {
       })     
       .catch(error => {
         SetTipCol (null)
-        setMessage(`Error add ${newName} from server`)
+        console.log(error.response.data)
+        setMessage(`Error add ${newName} from server. ${error.response.data.error} `)               
         setTimeout(() => {
           setMessage(null)
         }, 5000)
@@ -140,6 +142,7 @@ const delPersBook = (id) => {
       SetTipCol (null)
       setMessage(
         `${perSH.name} was already deleted from server`
+       
       )
       setTimeout(() => {
         setMessage(null)
